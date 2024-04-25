@@ -6,6 +6,8 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface LoginForm {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -21,7 +23,29 @@ export namespace Components {
         "middle": string;
     }
 }
+export interface LoginFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLLoginFormElement;
+}
 declare global {
+    interface HTMLLoginFormElementEventMap {
+        "loginSuccess": any;
+        "loginError": any;
+    }
+    interface HTMLLoginFormElement extends Components.LoginForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLLoginFormElementEventMap>(type: K, listener: (this: HTMLLoginFormElement, ev: LoginFormCustomEvent<HTMLLoginFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLLoginFormElementEventMap>(type: K, listener: (this: HTMLLoginFormElement, ev: LoginFormCustomEvent<HTMLLoginFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLLoginFormElement: {
+        prototype: HTMLLoginFormElement;
+        new (): HTMLLoginFormElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -29,10 +53,15 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "login-form": HTMLLoginFormElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface LoginForm {
+        "onLoginError"?: (event: LoginFormCustomEvent<any>) => void;
+        "onLoginSuccess"?: (event: LoginFormCustomEvent<any>) => void;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -48,6 +77,7 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface IntrinsicElements {
+        "login-form": LoginForm;
         "my-component": MyComponent;
     }
 }
@@ -55,6 +85,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "login-form": LocalJSX.LoginForm & JSXBase.HTMLAttributes<HTMLLoginFormElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
