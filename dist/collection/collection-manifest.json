@@ -1,0 +1,13 @@
+{
+  "entries": [
+    "components/login-form/login-form.js",
+    "components/my-component/my-component.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "4.17.1",
+    "typescriptVersion": "5.4.5"
+  },
+  "collections": [],
+  "bundles": []
+}
